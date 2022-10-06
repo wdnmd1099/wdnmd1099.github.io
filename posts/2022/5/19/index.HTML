@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>捕获冒泡</title>
+    <style>
+        * {
+  box-sizing: border-box;
+}
+div[class^=level] {
+  border: 1px solid;
+  border-radius: 50%;
+  display: inline-flex;
+}
+.level1 {
+  padding: 10px;
+  background: purple;
+}
+.level2 {
+  padding: 10px;
+  background: blue;
+}
+.level3 {
+  padding: 10px;
+  background: cyan;
+}
+.level4 {
+  padding: 10px;
+  background: green;
+}
+.level5 {
+  padding: 10px;
+  background: yellow;
+}
+.level6 {
+  padding: 10px;
+  background: orange;
+}
+.level7 {
+  width: 50px;
+  height: 50px;
+  border: 1px solid;
+  background: red;
+  border-radius: 50%;
+}
+.x{
+  background: transparent; /*把元素的变为透明 */
+}
+    </style>
+</head>
+<body>
+    1是最外面的圈，7是最里面的圈，通过执行js移除x来显示颜色
+    <div class="level1 x">
+        <div class="level2 x">
+          <div class="level3 x">
+            <div class="level4 x">
+              <div class="level5 x">
+                <div class="level6 x">
+                  <div class="level7 x">
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script src="main.js"></script>
+</body>
+</html>

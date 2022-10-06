@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画板</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* body {
+            border: 16px solid red;
+        } */
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="100" height="100"></canvas>
+    <script>
+        let canvas = document.getElementById("canvas");  //获取id="canvas"
+        canvas.width = document.documentElement.clientWidth      //获取画布宽
+        canvas.height = document.documentElement.clientHeight   //获取画布高
+        let ctx = canvas.getContext("2d");       //不知道什么
+
+
+
+
+
+
+        var isTouchDevice = "ontouchstart" in document.documentElement;
+        if (isTouchDevice) {
+            canvas.ontouchstart = (e) => {
+                //移动端不需要定义画画的状态 是 或 否
+                last = [e.touches[0].clientX, e.touches[0].clientY]
+            }
+
+            canvas.ontouchmove = (e) => {
+
+                let x = e.touches[0].clientX;
+                let y = e.touches[0].clientY;
+                drawLine(last[0], last[1], e.touches[0].clientX, e.touches[0].clientY);
+                last = [e.touches[0].clientX, e.touches[0].clientY];
+            }
+
+        }
+
+
+
+        // 想模拟电脑端这样写，但是不行，以后知识储备足够再改吧
+        // painting1 = false
+        // var last1
+
+        // var isTouchDevice = 'ontouchstart' in
+        //     document.documentElement;
+        // if (isTouchDevice) {
+        //     canvas.ontouchstart = (e) => {
+        //         painting1 = true
+        //         last1 = [e.touches[0].clientX, e.touches[0].clientY]
+
+
+        //     }
+        // } else {
+        //     canvas.ontouchmove = (e) => {
+        //         drawLine(last1[0], last1[1], e.touches[0].clientX, e.touches[0].clientY)
+        //         last1 = [e.touches[0].clientX, e.touches[0].clientY]
+        //     }
+        // }
+
+        // if (isTouchDevice) {
+        //     canvas.ontouchcancel = (e) => {
+        //         painting1 = false
+        //     }
+        // }
+
+
+
+
+        //    像移动端的页面这样写，因为是点和点的连续链接，从视觉效果看起来是线
+        //    但如果画的幅度速度过大，会丢失点与点之间的连线，我估计是浏览器的检测刷新频率有关，超出频率就会丢失中间移动的坐标
+        //    而像pc端写的话，它是点和点之间创建连线，而不是点与点的连续来创建视觉效果，所以无论移动多快，它从视觉上看都不会丢失移动过快时中间的坐标    
+
+
+        //     它先在外面写一个变量 last  然后当点击鼠标时，赋值鼠标当时所在的坐标给last 然后当移动鼠标时，用第一个点的坐标与
+        //     鼠标在浏览器的刷新频率内检测到的点之间互相连线，形成线，但是这样的话是不能实现实时的连线的，因为第一个坐标是点击鼠标时的坐标
+        //     所以当第一个坐标确定好，移动鼠标的时候，就要把第一个坐标last 的数组改为实时的坐标，这样就可以实现画连续的线了
+
+        let painting = false           // 开始画画的起始状态是“否”
+        let last     //坐标变量
+
+        ctx.fillStyle = "black";         //填充颜色
+        ctx.strokeStyle = 'none'        //描边颜色
+        ctx.lineWidth = 4;             //圆的大小
+        ctx.lineCap = 'round'         //让线上下移动时，点与点之间的空隙填充好，否则会出现断层的视觉效果
+
+
+        function drawLine(x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+
+        canvas.onmousedown = (e) => {       //监听长按点击事件，如果长按点击，则把画画的状态改为“是”
+            painting = true
+            last = [e.clientX, e.clientY]
+            console.log(last)
+        }
+
+        canvas.onmousemove = (e) => {        //实现画画
+            if (painting === true) {        //如果画画的状态是“是” ，则画圆，其它状态什么也不做
+                // ctx.beginPath();
+                // ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI); //画圆
+                // ctx.stroke();//圆的描边颜色，可以删除，因为画的圆不需要边框
+                // ctx.fill();  //填充颜色
+
+                drawLine(last[0], last[1], e.clientX, e.clientY)   //用自己写的函数画图
+
+                last = [e.clientX, e.clientY]  //改为实时的坐标
+            } else {
+                console.log('什么都不做')
+            }
+        }
+
+        canvas.onmouseup = () => {       //监听鼠标松开事件，如果鼠标点击松开，则把画画状态改为“否”
+            painting = false
+        }
+
+
+    </script>
+</body>
+
+</html>
