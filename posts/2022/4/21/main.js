@@ -63,8 +63,8 @@ let step = () => {
     }
     html.innerHTML = string2;
     style.innerHTML = string.substring(0, n);
-    window.scrollTo(0, 99999);
-    html.scrollTo(0, 99999);
+    window.scrollTo(0, 99999); 
+    html.scrollTo(0, 99999); // 设置滚动条的位置，分别是 横，纵 滚动条的坐标，把纵滚动条设置为99999那么滚动条就会一直往下滑
     if (n < string.length - 1) {
       // 如果 n 不是最后一个,就继续
       n += 1;
