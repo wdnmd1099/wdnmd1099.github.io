@@ -1,10 +1,7 @@
 let html = document.querySelector("#html");
 let style = document.querySelector("#style");
 
-let string = `/* 老师好，我是小华
- * 接下来我来演示一下作业的效果
- * 首先我要准备一个div
- **/
+let string = `/* 首先我要准备一个div **/
 #div1{
     border: 1px solid red;
     width: 200px;
